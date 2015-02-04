@@ -1,0 +1,3 @@
+module Audiosalad
+  VERSION = "0.0.1"
+end
