@@ -1,3 +1,3 @@
-module Audiosalad
-  VERSION = "0.0.1"
+module AudioSalad
+  VERSION = "0.0.4"
 end

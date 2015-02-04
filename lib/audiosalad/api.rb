@@ -13,15 +13,15 @@ module AudioSalad
     end
 
     def get_release_by_id(release_id)
-      method 
+      retrieve 'releaseId', release_id
     end
 
     @private
-    def method(method,argument=nil)
+    def retrieve(method_name,argument=nil)
       if(argument)
-        method_string = "#{ method }=#{argument}"
+        method_string = "#{ method_name }=#{argument}"
       else
-        method_string = method
+        method_string = method_name
       end
       
       response = HTTParty.get('#{ base }/fetch.php?k=#{ key }&#{method_string}')
