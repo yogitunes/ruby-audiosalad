@@ -1,30 +1,32 @@
 module AudioSalad
   class API
-    def key
-      '9D626C2C137EC2DE36CC12FFA78F3115E9A157126CE74F4F845034F7CF3F4056'
+    def self.key
+      AudioSalad::Config.key
     end
 
-    def profile
-      'yogitunes.audiosalad.com'
+    def self.profile
+      AudioSalad::Config.profile
     end
     
-    def base
-      'http://api.audiosalad.com'
+    def self.base
+      AudioSalad::Config.base
     end
 
-    def get_release_by_id(release_id)
-      retrieve 'releaseId', release_id
+    def self.get_release_by_id(release_id)
+      Release.with_data(self.retrieve("releaseId", release_id)[0])
     end
 
     @private
-    def retrieve(method_name,argument=nil)
+    def self.retrieve(method_name,argument=nil)
       if(argument)
         method_string = "#{ method_name }=#{argument}"
       else
         method_string = method_name
       end
-      
-      response = HTTParty.get('#{ base }/fetch.php?k=#{ key }&#{method_string}')
+
+      uri = "#{ self.base }/fetch.php?k=#{ self.key }&g_profile=#{ self.profile }&#{method_string}"
+
+      response = HTTParty.get(uri)
 
       raise response unless response.code == 200
 
