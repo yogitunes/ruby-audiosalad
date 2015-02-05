@@ -35,9 +35,9 @@ class Album
   end
     
   def self.import_from_audiosalad(release_id, options={})
-    release = AudioSalad::API.get_release_by_id self.audiosalad_release_id
+    release = AudioSalad::API.get_release_by_id release_id
     album = Album.where(audiosalad_release_id: release_id.to_i).first_or_create
-    album.read_audiosalad options
+    album.read_audiosalad release, options
   end
 
   def read_audiosalad(release=nil,options={})
@@ -66,7 +66,7 @@ class Album
       i = 1
       release.tracks.each do |t|
         t = Track.from_audiosalad(t)
-        TrackLocation.create({ track: t , location: album , placement: i })
+        TrackLocation.create({ track: t , location: album , order: i*100 })
         i = i+1
       end
     end

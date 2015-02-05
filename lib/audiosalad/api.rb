@@ -16,6 +16,10 @@ module AudioSalad
       Release.with_data(self.retrieve("releaseId", release_id)[0])
     end
 
+    def self.get_track_by_id(track_id)
+      Track.with_data(self.retrieve("trackId",track_id)[0])
+    end
+
     @private
     def self.retrieve(method_name,argument=nil)
       if(argument)

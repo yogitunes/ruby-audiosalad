@@ -11,6 +11,10 @@ module AudioSalad
       end
       eos
     end
+
+    def release_id
+      data['releaseId']
+    end
     
     def self.with_data data
       t = Track.new
