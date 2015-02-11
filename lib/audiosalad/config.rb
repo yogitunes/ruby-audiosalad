@@ -1,7 +1,22 @@
 module AudioSalad
   module Config
     class << self
-      
+      def username(val=nil)
+        if(val)
+          @username = val
+        else
+          raise "No username specified, specify in config/initializers/audiosalad.rb" unless @username
+          @username
+        end
+      end
+      def password(val=nil)
+        if(val)
+          @password = val
+        else
+          raise "No password specified, specify in config/initializers/audiosalad.rb" unless @username
+          @password
+        end
+      end
       def key(val=nil)
         if(val)
           @key = val

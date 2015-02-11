@@ -12,6 +12,19 @@ module AudioSalad
       AudioSalad::Config.base
     end
 
+    def self.username
+      AudioSalad::Config.username
+    end
+
+    def self.password
+      AudioSalad::Config.password
+    end
+    
+    def self.get_asid
+      url = "#{ self.base }/auth.php?g_profile=#{ self.profile }&username=#{ self.username }&password=#{ self.password }"
+      HTTParty.get(url).body
+    end
+
     def self.get_release_by_id(release_id)
       Release.with_data(self.retrieve("releaseId", release_id)[0])
     end
