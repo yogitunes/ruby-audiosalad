@@ -1,39 +1,6 @@
 require_dependency GenericMusicRails::Engine.root.join('app', 'models', 'album').to_s
 
 class Album
-
-  def self.bigfile(url,&block)
-    uri = URI(url)
-    the_file = Tempfile.new('big-uri-dl')
-    the_file.binmode
-    
-    begin
-      Rails.logger.info "Downloading cover art: #{ url }"
-#      the_file.write HTTParty.get(url).parsed_response
-      Net::HTTP.start(uri.host,uri.port) do |http|
-        request = Net::HTTP::Get.new uri.request_uri
-        http.request request do |response|
-          response.read_body do |chunk|
-            the_file.write chunk
-          end
-        end
-      end
-    rescue StandardError => x
-      Rails.logger.error "Error during file download: #{x}"
-      the_file.close
-      the_file.unlink
-
-      return nil
-    end
-      
-    the_file.rewind
-    block.call(the_file)
-    the_file.close
-    the_file.unlink
-
-    return true
-  end
-    
   def self.import_from_audiosalad(release_id, options={})
     release = AudioSalad::API.get_release_by_id release_id
     album = Album.where(audiosalad_release_id: release_id.to_i).first_or_create
