@@ -13,7 +13,9 @@ class Album
     album.name = release.title
     album.artist = Profile.for_name(release.artist)
     album.record_label = RecordLabel.for_name(release.label)
-
+    album.release_date = release.release_date
+    album.available = true
+    
     cover_url = release.front_cover[:url] rescue ''
     
     # if album.covers.length == 0 || options[:force_cover]==true

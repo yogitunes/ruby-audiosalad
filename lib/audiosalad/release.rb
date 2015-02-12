@@ -26,6 +26,10 @@ module AudioSalad
       data['releaseId']
     end
 
+    def release_date
+      Date.parse(data['release_date'])
+    end
+
     def front_cover
       d = data['images'].find { |m| m['type'].downcase == 'front' }
 
