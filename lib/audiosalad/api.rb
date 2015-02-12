@@ -26,11 +26,21 @@ module AudioSalad
     end
 
     def self.get_release_by_id(release_id)
-      Release.with_data(self.retrieve("releaseId", release_id)[0])
+      response = self.retrieve("releaseId", release_id);
+      if response
+        Release.with_data(response[0])
+      else
+        nil
+      end
     end
 
     def self.get_track_by_id(track_id)
-      Track.with_data(self.retrieve("trackId",track_id)[0])
+      response = self.retrieve("trackId",track_id)
+      if response
+        Track.with_data(response[0])
+      else
+        nil
+      end
     end
 
     @private
@@ -45,9 +55,16 @@ module AudioSalad
 
       response = HTTParty.get(uri)
 
-      raise response unless response.code == 200
+      puts "RESPONSE: '#{response.body}'"
+      if response.code == 200
+        ActiveSupport::JSON.decode(response.body)
+      elsif response.body == "no matching objects found"
+        nil
+      else
+        raise response unless response.code == 200
+      end
 
-      ActiveSupport::JSON.decode(response.body)
+
     end
   end
 end

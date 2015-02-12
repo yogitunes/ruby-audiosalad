@@ -27,6 +27,13 @@ class Album
     # end
 
     album.tmp_cover_url = cover_url
+    if !album.cover || !album.cover.image || !album.cover.image.url
+      album.covers.destroy_all
+      c = Cover.new
+      c.remote_image_url = cover_url
+      c.album = album
+      c.save
+    end
     
     if options[:skip_tracks] != true
       # blow away the track list, we'll recreate it from audiosalad:
