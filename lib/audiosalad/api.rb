@@ -25,6 +25,25 @@ module AudioSalad
       HTTParty.get(url).body
     end
 
+    def self.clear
+      url = "#{ self.base }/auth.php?g_profile=#{ self.profile }&clear"
+      HTTParty.get(url).body
+    end
+
+    def self.download_track(track_id,hq=false,&block)
+      file = Tempfile.new(['as_track','.mp3'])
+      begin
+        file.binmode
+        clear
+        url = "#{ self.base }/stream.php?g_profile=#{ self.profile }&id=#{ track_id }&asid=#{ get_asid }#{ hq ? '&hq' : '' }"
+        file.write HTTParty.get(url).parsed_response
+        block.call(file)
+      ensure
+        file.close
+        file.unlink
+      end
+    end
+
     def self.get_release_by_id(release_id)
       response = self.retrieve("releaseId", release_id);
       if response
@@ -55,7 +74,6 @@ module AudioSalad
 
       response = HTTParty.get(uri)
 
-      puts "RESPONSE: '#{response.body}'"
       if response.code == 200
         ActiveSupport::JSON.decode(response.body)
       elsif response.body == "no matching objects found"
