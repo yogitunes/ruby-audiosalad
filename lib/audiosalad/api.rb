@@ -43,7 +43,7 @@ module AudioSalad
       end
     end
 
-    def self.downloadable_url(track_id,h1=false)
+    def self.downloadable_url(track_id,hq=false)
       clear
       "#{ self.base }/stream.php?g_profile=#{ self.profile }&id=#{ track_id }&asid=#{ get_asid }#{ hq ? '&hq' : '' }"
     end
