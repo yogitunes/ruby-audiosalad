@@ -33,10 +33,11 @@ module AudioSalad
     def self.download_track(track_id,hq=false,&block)
       file = Tempfile.new(['as_track','.mp3'])
       begin
-        file.binmode
         url = downloadable_url(track_id,hq)
-        file.write HTTParty.get(url).parsed_response
-        block.call(file)
+        file.binmode
+        if system("curl -s \"#{ url }\" -o \"#{ file.path }\"")
+          block.call(file)
+        end
       ensure
         file.close
         file.unlink
