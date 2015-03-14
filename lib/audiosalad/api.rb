@@ -34,14 +34,18 @@ module AudioSalad
       file = Tempfile.new(['as_track','.mp3'])
       begin
         file.binmode
-        clear
-        url = "#{ self.base }/stream.php?g_profile=#{ self.profile }&id=#{ track_id }&asid=#{ get_asid }#{ hq ? '&hq' : '' }"
+        url = downloadable_url(track_id,hq)
         file.write HTTParty.get(url).parsed_response
         block.call(file)
       ensure
         file.close
         file.unlink
       end
+    end
+
+    def self.downloadable_url(track_id,h1=false)
+      clear
+      "#{ self.base }/stream.php?g_profile=#{ self.profile }&id=#{ track_id }&asid=#{ get_asid }#{ hq ? '&hq' : '' }"
     end
 
     def self.get_release_by_id(release_id)
