@@ -9,6 +9,13 @@ class Album
 
   def read_audiosalad(release=nil,options={})
     release ||= AudioSalad::API.get_release_by_id self.audiosalad_release_id
+    
+    if release==nil
+      album.available = false
+      album.save
+      return
+    end
+
     album = self
     album.name = release.title
     album.artist = Profile.for_name(release.artist)
@@ -31,7 +38,7 @@ class Album
       album.covers.destroy_all
       c = Cover.new
       c.remote_image_url = cover_url
-      c.album = album
+      c.coverable = album
       c.save
     end
     
