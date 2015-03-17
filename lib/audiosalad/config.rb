@@ -39,7 +39,7 @@ module AudioSalad
         if(val)
           @base = val
         else
-          @base || "http://api.audiosalad.com"
+          @base || "https://api.audiosalad.com"
         end
       end
       
