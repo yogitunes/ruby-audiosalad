@@ -27,7 +27,11 @@ module AudioSalad
     end
 
     def release_date
-      Date.parse(data['release_date'])
+      if data['releaseDate'].presence
+        Date.parse(data['releaseDate'])
+      else
+        nil
+      end  
     end
 
     def front_cover
