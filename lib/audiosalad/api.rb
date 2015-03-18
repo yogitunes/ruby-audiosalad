@@ -41,7 +41,7 @@ module AudioSalad
         url = downloadable_url(track_id,hq)
         file.close
         curl_call = "curl -s \"#{ url }\" -o \"#{ file.path }\""
-        if system(curl_call)
+        if system(curl_call) && File.size?(file.path)
           block.call(file)
         end
       ensure
