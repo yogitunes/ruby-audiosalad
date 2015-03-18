@@ -38,7 +38,6 @@ module AudioSalad
     def self.download_track(track_id,hq=false,&block)
       file = Tempfile.new(['as_track','.mp3'])
       begin
-        curl_clear
         url = downloadable_url(track_id,hq)
         file.close
         curl_call = "curl -s \"#{ url }\" -o \"#{ file.path }\""
@@ -52,7 +51,6 @@ module AudioSalad
     end
 
     def self.downloadable_url(track_id,hq=false)
-      clear
       "#{ self.base }/stream.php?g_profile=#{ self.profile }&id=#{ track_id }&asid=#{ get_asid }#{ hq ? '&hq' : '' }"
     end
 
