@@ -43,6 +43,10 @@ module AudioSalad
         curl_call = "curl -s \"#{ url }\" -o \"#{ file.path }\""
         if system(curl_call) && File.size?(file.path)
           block.call(file)
+        else
+          #something happened, clear stuff for future requests, but this one's a goner:
+          clear
+          curl_clear
         end
       ensure
         file.close
