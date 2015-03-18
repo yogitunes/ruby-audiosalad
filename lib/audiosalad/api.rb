@@ -30,19 +30,14 @@ module AudioSalad
       HTTParty.get(url).body
     end
 
-    def self.curl_clear
-      curl_call = "curl -s \"#{ self.base }/auth.php?g_profile=#{ self.profile }&clear\""
-      system(curl_call)
-    end
-
     def self.download_track(track_id,hq=false,&block)
       file = Tempfile.new(['as_track','.mp3'])
       begin
-        curl_clear
+        file.binmode
         url = downloadable_url(track_id,hq)
-        file.close
-        curl_call = "curl -s \"#{ url }\" -o \"#{ file.path }\""
-        if system(curl_call)
+        resp = HTTParty.get(url).parsed_response
+        if resp && resp.length > 0
+          file.write resp 
           block.call(file)
         end
       ensure
