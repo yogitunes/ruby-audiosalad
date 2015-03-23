@@ -39,6 +39,8 @@ module AudioSalad
         if resp && resp.length > 0
           file.write resp 
           block.call(file)
+        else
+          clear
         end
       ensure
         file.close
@@ -47,7 +49,6 @@ module AudioSalad
     end
 
     def self.downloadable_url(track_id,hq=false)
-      clear
       "#{ self.base }/stream.php?g_profile=#{ self.profile }&id=#{ track_id }&asid=#{ get_asid }#{ hq ? '&hq' : '' }"
     end
 
