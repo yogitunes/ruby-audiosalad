@@ -11,8 +11,8 @@ class Album
     release ||= AudioSalad::API.get_release_by_id self.audiosalad_release_id
     
     if release==nil
-      album.available = false
-      album.save
+      self.available = false
+      self.save
       return
     end
 
