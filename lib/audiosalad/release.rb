@@ -1,25 +1,10 @@
 module AudioSalad
-  class Release
+  class Release < Base
     attr_accessor :data,:tracks
     FIELDS = :upc,:title,:version,:artist,:label
 
-    FIELDS.each do |f|
-      self.class_eval <<-eos
-      def #{ f.to_s }
-        data['#{f.to_s}']
-      end
-      eos
-    end
-
-    def self.with_data data
-      r = Release.new
-      r.data = data
-      r.tracks = data['tracks'].collect { |d| Track.with_data d }
-      r
-    end
-
-    def to_s
-      "release<#{ id }>"
+    def tracks
+      @tracks ||= data['tracks'].collect { |d| Track.with_data d }
     end
     
     def id

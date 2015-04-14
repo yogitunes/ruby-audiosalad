@@ -52,8 +52,17 @@ module AudioSalad
       "#{ self.base }/stream.php?g_profile=#{ self.profile }&id=#{ track_id }&asid=#{ get_asid }#{ hq ? '&hq' : '' }"
     end
 
+    def self.get_all_playlists
+      response = self.retrieve("allPlaylists")
+      if response
+        response.collect { |r| Playlist.with_data(r) }
+      else
+        nil
+      end
+    end
+    
     def self.get_release_by_id(release_id)
-      response = self.retrieve("releaseId", release_id);
+      response = self.retrieve("releaseId", release_id)
       if response
         Release.with_data(response[0])
       else

@@ -1,5 +1,7 @@
 require "audiosalad/api"
+require "audiosalad/base"
 require "audiosalad/release"
+require "audiosalad/playlist"
 require "audiosalad/track"
 require "audiosalad/version"
 require "audiosalad/engine"

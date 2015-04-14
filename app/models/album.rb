@@ -44,14 +44,7 @@ class Album
     
     if options[:skip_tracks] != true
       # blow away the track list, we'll recreate it from audiosalad:
-      album.track_locations.delete_all
-
-      i = 1
-      release.tracks.each do |t|
-        t = Track.from_audiosalad(t)
-        TrackLocation.create({ track: t , location: album , order: i*100 })
-        i = i+1
-      end
+      self.set_ordered_tracks(release.tracks.collect {|t| Track.from_audiosalad(t) })
     end
     
     album.save

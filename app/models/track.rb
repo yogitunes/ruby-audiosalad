@@ -24,7 +24,9 @@ class Track
   
   def self.from_audiosalad(salad,options={})
     t = Track.where(audiosalad_track_id: salad.id).first_or_initialize
-    t.read_audiosalad(salad,options)
+    if(!(options.has_key? :update_existing) || options[:update_existing] != false)
+      t.read_audiosalad(salad,options)
+    end
   end
 end
 
