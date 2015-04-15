@@ -48,7 +48,7 @@ Playlist.class_eval do
     end
     
     mixes.each do |mix_track|
-      duration = snap([30,60,75,90],mix_track.duration)
+      duration = snap([30,60,75,90],mix_track.length)
       mix = self.mixes.where(duration: duration).first_or_create
       mix.mix_tracks = [mix_track]
       mix.audiosalad_release_id = mix_track.album.audiosalad_release_id
