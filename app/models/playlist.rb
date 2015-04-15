@@ -44,7 +44,7 @@ Playlist.class_eval do
       c.coverable = self
       c.save
 
-      playlist.reload
+      self.reload
     end
     
     mixes.each do |mix_track|
