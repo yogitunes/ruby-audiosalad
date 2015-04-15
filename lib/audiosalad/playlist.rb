@@ -3,6 +3,7 @@ module AudioSalad
     CONVERSION = {
       'artist playlist' => 'artist',
       'more releases' => 'more',
+      'site featured chart' => 'chart',
       'DJ-playlist' => 'dj',
       'site playlist' => 'site'
     };
@@ -22,7 +23,14 @@ module AudioSalad
     end
 
     def description
-      texts.find { |t| t['type'] == 'Description' }['content'] rescue nil
+      t = texts.find { |t| t['type'] == 'Description' }
+      t ||= text.find { |t| t['type'] == 'Other' }
+      
+      if t
+        t['content']
+      else
+        nil
+      end
     end
 
     private
