@@ -24,7 +24,7 @@ module AudioSalad
 
     def description
       t = texts.find { |t| t['type'] == 'Description' }
-      t ||= text.find { |t| t['type'] == 'Other' }
+      t ||= texts.find { |t| t['type'] == 'Other' }
       
       if t
         t['content']
