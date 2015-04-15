@@ -60,6 +60,15 @@ module AudioSalad
         nil
       end
     end
+
+    def self.get_playlist_by_id(playlist_id)
+      response = self.retrieve("playlistId",playlist_id)
+      if(response)
+        Playlist.with_data(response[0])
+      else
+        nil
+      end
+    end
     
     def self.get_release_by_id(release_id)
       response = self.retrieve("releaseId", release_id)
