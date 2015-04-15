@@ -37,7 +37,7 @@ Playlist.class_eval do
     
     self.set_ordered_tracks tracks
 
-    if playlist.data['images'].length && (!playlist.cover ||!playlist.cover.image || !playlist.cover.image.url)
+    if playlist.data['images'].length && (!self.cover ||!self.cover.image || !self.cover.image.url)
       playlist.covers.destroy_all
       c = Cover.new
       c.remote_image_url = playlist.data['images'][0]['urlLarge']
