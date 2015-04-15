@@ -1,7 +1,7 @@
 module AudioSalad
   class Release < Base
     attr_accessor :data,:tracks
-    FIELDS = :upc,:title,:version,:artist,:label
+    fields :upc,:title,:version,:artist,:label
 
     def tracks
       @tracks ||= data['tracks'].collect { |d| Track.with_data d }
