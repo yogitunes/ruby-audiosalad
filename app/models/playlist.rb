@@ -36,12 +36,27 @@ Playlist.class_eval do
     tracks = tracks - mixes
     
     self.set_ordered_tracks tracks
+
+    if playlist.data['images'].length && (!playlist.cover ||!playlist.cover.image || !playlist.cover.image.url)
+      playlist.covers.destroy_all
+      c = Cover.new
+      c.remote_image_url = playlist.data['images'][0]['urlLarge']
+      c.coverable = playlist
+      c.save
+
+      playlist.reload
+    end
     
     mixes.each do |mix_track|
       duration = snap([30,60,75,90],mix_track.duration)
       mix = self.mixes.where(duration: duration).first_or_create
       mix.mix_tracks = [mix_track]
       mix.audiosalad_release_id = mix_track.album.audiosalad_release_id
+
+      unless self.cover
+        self.cover = Cover.create(image: mix_track.album.cover.image)
+      end
+
       mix.save
     end
 
