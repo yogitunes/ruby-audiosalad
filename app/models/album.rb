@@ -21,8 +21,14 @@ class Album
     album.artist = Profile.for_name(release.artist)
     album.record_label = RecordLabel.for_name(release.label)
     album.release_date = release.release_date
-    album.available = true
-    
+
+    album.audiosalad_cache = release.data.to_json
+    # dumbest way to get text data:
+    begin
+      album.description = release.data['texts'][0]['content']
+    rescue
+    end  
+
     cover_url = release.front_cover[:url] rescue ''
     
     # if album.covers.length == 0 || options[:force_cover]==true
@@ -43,8 +49,10 @@ class Album
     end
     
     if options[:skip_tracks] != true
+      tracks = release.tracks.collect {|t| Track.from_audiosalad(t) }
       # blow away the track list, we'll recreate it from audiosalad:
-      self.set_ordered_tracks(release.tracks.collect {|t| Track.from_audiosalad(t) })
+      tracks.each { |t| t.album = album; t.save }
+      self.set_ordered_tracks(tracks)
     end
     
     album.save

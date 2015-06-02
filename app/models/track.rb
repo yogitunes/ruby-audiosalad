@@ -15,7 +15,7 @@ class Track
     self.duration = salad.length
     self.isrc = salad.isrc
     
-    self.reporting_metadata = salad.data
+    self.audiosalad_cache = salad.data.to_json
 
     self.save
     
