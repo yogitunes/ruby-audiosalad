@@ -22,7 +22,8 @@ class Album
     album.record_label = RecordLabel.for_name(release.label)
     album.release_date = release.release_date
 
-    album.audiosalad_cache = release.data.to_json
+    album.audiosalad_cache = release.data.except('tracks').to_json
+
     # dumbest way to get text data:
     begin
       album.description = release.data['texts'][0]['content']
