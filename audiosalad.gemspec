@@ -7,11 +7,11 @@ require "audiosalad/version"
 Gem::Specification.new do |s|
   s.name        = "audiosalad"
   s.version     = AudioSalad::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of AudioSalad."
-  s.description = "TODO: Description of AudioSalad."
+  s.authors     = ["Daniel Staudigel"]
+  s.email       = ["daniel@yogitunes.com"]
+  s.homepage    = "http://github.com/yogitunes/ruby-audiosalad"
+  s.summary     = "A gem for interacting with the AudioSalad API."
+  s.description = "A gem for interacting with the audiosalad API."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
